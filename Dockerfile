@@ -1,7 +1,5 @@
 FROM python:3.10.15-alpine3.20
 
-LABEL authors="clouds2024"
-
 WORKDIR /app
 
 # requirements.txt를 복사하고 종속성 설치
