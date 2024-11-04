@@ -10,7 +10,7 @@ class Parking(Base):
     __tablename__ = 'parking'
 
     pno = Column(Integer, primary_key=True, autoincrement=True, index=True)
-    carnum = Column(String(10), nullable=False)
+    carnum = Column(String(10), nullable=False, unique=True)
     barrier = Column(String(5), nullable=False, default='0')
     intime = Column(DateTime, default=datetime.now)
     outtime = Column(DateTime, nullable=True)
@@ -21,6 +21,7 @@ class Parkseat(Base):
 
     carnum = Column(String(10), primary_key=True, nullable=False)
     barrier = Column(String(5), nullable=False, default='0')
+    parknum = Column(Integer, nullable=False)
 
 # 수정 필요
 class Payment(Base):
@@ -31,4 +32,3 @@ class Payment(Base):
     paydate = Column(DateTime, nullable=True)
     parkingtime = Column(String(20), nullable=True)
     carnum = Column(String(10), ForeignKey('parking.carnum'))
-
