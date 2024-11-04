@@ -1,5 +1,8 @@
 FROM python:3.10.15-alpine3.20
 
+# 필수 패키지 설치
+RUN apk add --no-cache gcc g++ libc-dev
+
 WORKDIR /app
 
 # requirements.txt를 복사하고 종속성 설치
@@ -18,3 +21,5 @@ RUN python -c "from service.database import create_tables; create_tables()"
 
 # FastAPI 서버 실행
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
+
+
