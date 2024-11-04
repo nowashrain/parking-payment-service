@@ -1,17 +1,15 @@
-# Debian 기반 이미지로 변경 (안정성 확보)
-FROM python:3.10-slim
+# Alpine 3.20 기반 이미지로 변경
+FROM python:3.10-alpine3.20
 
-# 빌드 도구와 scikit-learn에 필요한 라이브러리 설치
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+# 빌드 도구와 필요한 라이브러리 설치
+RUN apk update && apk add --no-cache \
+    build-base \
     gcc \
     g++ \
-    liblapack-dev \
-    libblas-dev \
-    gfortran \
+    lapack-dev \
+    blas-dev \
     libffi-dev \
-    libssl-dev \
-    && rm -rf /var/lib/apt/lists/*
+    openssl-dev
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -27,9 +25,6 @@ COPY models ./models
 COPY schema ./schema
 COPY routes ./routes
 COPY service ./service
-
-# 데이터베이스 테이블 생성
-RUN python -c "from service.database import create_tables; create_tables()"
 
 # FastAPI 서버 실행
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
