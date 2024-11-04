@@ -1,26 +1,22 @@
-FROM python:3.10.15-alpine3.20
+# Debian 기반 이미지로 변경 (안정성 확보)
+FROM python:3.10-slim
 
-# 필수 패키지 설치 (gcc, g++, libc-dev, gfortran, lapack-dev 등)
-RUN apk add --no-cache \
+# 빌드 도구와 scikit-learn에 필요한 라이브러리 설치
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     gcc \
     g++ \
-    libc-dev \
+    liblapack-dev \
+    libblas-dev \
     gfortran \
-    libgfortran \
-    libstdc++ \
-    lapack-dev \
-    libexecinfo-dev \
-    py3-setuptools \
-    py3-wheel \
-    musl-dev \
-    linux-headers \
     libffi-dev \
-    openssl-dev \
-    bash
+    libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
 
+# 작업 디렉토리 설정
 WORKDIR /app
 
-# requirements.txt를 복사하고 종속성 설치
+# requirements.txt 복사 및 종속성 설치
 COPY requirements.txt .
 RUN pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt
@@ -37,5 +33,3 @@ RUN python -c "from service.database import create_tables; create_tables()"
 
 # FastAPI 서버 실행
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001", "--reload"]
-
-
