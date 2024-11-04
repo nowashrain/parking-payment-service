@@ -1,5 +1,4 @@
-# Python 3.10 slim 이미지 사용
-FROM python:3.10-slim
+FROM python:3.10.15-slim-bullseye
 
 WORKDIR /app
 
@@ -24,4 +23,4 @@ COPY routes ./routes
 COPY service ./service
 
 # FastAPI 서버 실행
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8001"]
