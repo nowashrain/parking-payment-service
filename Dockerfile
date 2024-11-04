@@ -1,7 +1,7 @@
 FROM python:3.10.15-alpine3.20
 
-# 필수 패키지 설치
-RUN apk add --no-cache gcc g++ libc-dev
+# 필수 패키지 설치 (gcc, g++, libc-dev 등)
+RUN apk add --no-cache gcc g++ libc-dev py3-setuptools py3-wheel
 
 WORKDIR /app
 
