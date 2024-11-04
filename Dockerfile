@@ -1,7 +1,4 @@
-# Python 환경을 사용하여 FastAPI 앱 빌드
-FROM python:3.10.15-slim-bullseye
-
-LABEL authors="clouds2024"
+FROM python:3.10.15-alpine3.20
 
 WORKDIR /app
 
