@@ -1,22 +1,25 @@
+import os, sys
 import sqlalchemy, logging
 from sqlalchemy.orm import sessionmaker
 from models.payment import Base  # SQLAlchemy Base import
 
 
-# 파일에서 DB 정보를 읽어오기
-def read_secret_file(file_path):
-    with open(file_path, 'r') as file:
-        return file.read().strip()
+# # 파일에서 DB 정보를 읽어오기
+# def read_secret_file(file_path):
+#     with open(file_path, 'r') as file:
+#         return file.read().strip()
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-db_user = read_secret_file('/etc/secrets/DB_USER')
-db_password = read_secret_file('/etc/secrets/DB_PASSWORD')
-db_host = read_secret_file('/etc/secrets/DB_HOST')
-db_port = read_secret_file('/etc/secrets/DB_PORT')
-db_name = read_secret_file('/etc/secrets/DB_NAME')
+# 환경 변수 설정 (secret.yaml에 맞춰 설정)
+DB_USER = os.getenv('MYSQL_USER')
+DB_PASSWORD = os.getenv('MYSQL_PASSWORD')
+DB_HOST = os.getenv('MYSQL_HOST')
+DB_NAME = os.getenv('MYSQL_DATABASE')
+DB_PORT = os.getenv('MYSQL_PORT')
 
+logging.info(f"DB_USER: {DB_USER}, DB_PASSWORD: {DB_PASSWORD}, DB_HOST: {DB_HOST}, DB_NAME: {DB_NAME}, DB_PORT: {DB_PORT}")
 
-# DB URL 구성
-db_url = f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+db_url = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 engine = sqlalchemy.create_engine(db_url, echo=True)
 SessionLocal = sessionmaker(autocommit=False,
