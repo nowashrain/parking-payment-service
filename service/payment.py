@@ -7,7 +7,6 @@ from datetime import datetime
 def register(db: Session, payment: PaymentBase):
     new_payment = Payment(
         payment=payment.payment,
-        paydate=payment.paydate or datetime.now(),
         parkingtime=payment.parkingtime,
         carnum=payment.carnum
     )

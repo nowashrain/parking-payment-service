@@ -6,7 +6,6 @@ from typing import Optional
 # 결제 기본 정보 스키마
 class PaymentBase(BaseModel):
     payment: str
-    paydate: Optional[datetime] = None  # datetime으로 변경하여 ISO 형식 처리
     parkingtime: str
     carnum: str
 
