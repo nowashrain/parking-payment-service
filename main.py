@@ -4,8 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from routes.payment import router as payment_router
 from service.database import create_tables, SessionLocal
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI()
+
+# 기본 매트릭 설정
+Instrumentator().instrument(app).expose(app)
 
 # CORS 설정
 # origins = [
